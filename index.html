@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>PAINEL BUY</title>
+
+<style>
+body{
+  margin:0;
+  background:#0e0e0e;
+  font-family:sans-serif;
+  color:#fff;
+  display:flex;
+  justify-content:center;
+  padding-top:40px;
+}
+
+.panel{
+  width:330px;
+  padding:22px;
+  border-radius:18px;
+  background:#111;
+  border:2px solid #ffd400;
+  box-shadow:0 0 25px #ffd40066;
+}
+
+h1{
+  margin:0 0 22px 0;
+  text-align:center;
+  font-size:22px;
+  letter-spacing:1px;
+  color:#fff;
+}
+h1 span{ color:#ffd400; }
+
+/* แถวปุ่ม */
+.row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin:16px 0;
+}
+
+/* toggle */
+.switch{
+  position:relative;
+  width:48px;
+  height:26px;
+}
+.switch input{ display:none; }
+
+.slider{
+  position:absolute;
+  inset:0;
+  background:#ccc;
+  border-radius:20px;
+}
+.slider:before{
+  content:"";
+  position:absolute;
+  width:22px;
+  height:22px;
+  left:2px;
+  top:2px;
+  background:#fff;
+  border-radius:50%;
+  transition:.2s;
+}
+.switch input:checked + .slider{
+  background:#ffd400;
+  box-shadow:0 0 10px #ffd400;
+}
+.switch input:checked + .slider:before{
+  transform:translateX(22px);
+}
+</style>
+</head>
+
+<body>
+
+<!-- เสียงคลิก (อัปโหลดไฟล์ click.mp3 ไว้โฟลเดอร์เดียวกัน) -->
+<audio id="clickSound" src="click.mp3"></audio>
+
+<div class="panel">
+  <h1><span>PAINEL</span> BUY</h1>
+
+  <div class="row">
+    <span>HS BODY</span>
+    <label class="switch">
+      <input type="checkbox" onclick="onToggle()">
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div class="row">
+    <span>HS NECK</span>
+    <label class="switch">
+      <input type="checkbox" onclick="onToggle()">
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div class="row">
+    <span>ANTIBAN</span>
+    <label class="switch">
+      <input type="checkbox" onclick="onToggle()">
+      <span class="slider"></span>
+    </label>
+  </div>
+</div>
+
+<script>
+function onToggle(){
+  // เล่นเสียง
+  const s = document.getElementById("clickSound");
+  if(s){
+    s.currentTime = 0;
+    s.play();
+  }
+  // แจ้งเตือน
+  alert("Activar✅");
+}
+</script>
+
+</body>
+</html>
