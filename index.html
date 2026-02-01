@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel iOS X Lava Shóp</title>
+    <style>
+        /* ธีมสีฟ้า-ม่วง */
+        :root {
+            --primary-gradient: linear-gradient(135deg, #00d2ff 0%, #92fe9d 0%, #3a7bd5 0%, #8e44ad 100%);
+            --bg-color: #0b0b1a;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --neon-blue: #00f2ff;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            background: var(--primary-gradient);
+            font-family: 'Segoe UI', sans-serif;
+            color: white;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* หน้า Loading */
+        #loader-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .progress-container {
+            width: 70%;
+            height: 10px;
+            background: #222;
+            border-radius: 10px;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+
+        #progress-bar {
+            width: 0%;
+            height: 100%;
+            background: var(--neon-blue);
+            box-shadow: 0 0 15px var(--neon-blue);
+            transition: width 0.1s;
+        }
+
+        /* หน้า Panel หลัก */
+        #main-panel {
+            display: none;
+            width: 90%;
+            max-width: 400px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 25px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+            color: var(--neon-blue);
+            text-shadow: 0 0 10px var(--neon-blue);
+        }
+
+        .subtitle { font-size: 0.8rem; opacity: 0.6; margin-bottom: 20px; }
+
+        .control-group {
+            background: var(--card-bg);
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Slider Design */
+        input[type=range] {
+            width: 100%;
+            accent-color: var(--neon-blue);
+            margin: 10px 0;
+        }
+
+        .btn-activate {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: var(--primary-gradient);
+            color: white;
+            font-weight: bold;
+            margin-top: 15px;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body onload="startLoading()">
+
+    <div id="loader-screen">
+        <h2 style="color: var(--neon-blue);">LAVA SHÓP SYSTEM</h2>
+        <div class="progress-container">
+            <div id="progress-bar"></div>
+        </div>
+        <p id="status">Checking credentials...</p>
+    </div>
+
+    <div id="main-panel">
+        <h1>Panel iOS X Lava Shóp</h1>
+        <p class="subtitle">Advanced Configuration v2.0</p>
+
+        <div class="control-group">
+            <span>Assistência de Mira</span>
+            <input type="checkbox" onchange="playClick()">
+        </div>
+
+        <div class="control-group" style="flex-direction: column; align-items: flex-start;">
+            <div style="display: flex; justify-content: space-between; width: 100%;">
+                <span>Precisão</span>
+                <span id="val1">75%</span>
+            </div>
+            <input type="range" min="0" max="100" value="75" 
+                   oninput="updateVal(this, 'val1')" 
+                   onmousedown="startScroll()" 
+                   onmouseup="stopScroll()"
+                   ontouchstart="startScroll()"
+                   ontouchend="stopScroll()">
+        </div>
+
+        <button class="btn-activate" onclick="playClick()">ATIVAR SISTEMA</button>
+    </div>
+
+    <script>
+        // ระบบเสียง (ใช้ตัวอย่างเสียงจากภายนอก)
+        const clickSound = new Audio('https://www.soundjay.com/buttons/button-16.mp3');
+        const scrollSound = new Audio('https://www.soundjay.com/buttons/button-20.mp3'); // เสียงหมุน
+        scrollSound.loop = true;
+
+        function startLoading() {
+            let width = 0;
+            let bar = document.getElementById("progress-bar");
+            let interval = setInterval(() => {
+                if (width >= 100) {
+                    clearInterval(interval);
+                    alert("Activate Dó!");
+                    document.getElementById("loader-screen").styl
