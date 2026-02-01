@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>LAVA SHÓP SYSTEM</title>
+    <style>
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body {
+            margin: 0; padding: 0;
+            background-color: #0d0b1a;
+            color: white;
+            font-family: 'Segoe UI', sans-serif;
+            display: flex; justify-content: center; align-items: center;
+            height: 100vh; overflow: hidden;
+        }
+
+        /* --- Zone: Loading Screen --- */
+        #loader-screen {
+            text-align: center;
+            width: 80%;
+            display: block; /* เริ่มต้นแสดงหน้านี้ */
+        }
+        .title-load {
+            font-size: 26px; font-weight: bold;
+            color: #00e5ff; margin-bottom: 25px;
+            letter-spacing: 2px;
+            text-shadow: 0 0 15px rgba(0, 229, 255, 0.6);
+        }
+        .progress-container {
+            width: 100%; height: 8px;
+            background: #1a1a2e; border-radius: 20px;
+            overflow: hidden; border: 1px solid #333;
+        }
+        .progress-fill {
+            width: 0%; height: 100%;
+            background: linear-gradient(90deg, #00f2fe 0%, #4facfe 100%);
+            box-shadow: 0 0 10px #4facfe;
+            transition: width 0.15s linear;
+        }
+        .status-text {
+            margin-top: 15px; font-size: 13px; color: #aaa;
+            text-transform: uppercase; letter-spacing: 1px;
+        }
+
+        /* --- Zone: Main Panel --- */
+        #panel-screen {
+            display: none; /* ซ่อนไว้ก่อนจนกว่าจะโหลดเสร็จ */
+            width: 90%; max-width: 400px;
+            animation: slideUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .panel-card {
+            background: rgba(25, 25, 45, 0.9);
+            border: 1px solid #333; border-radius: 20px;
+            padding: 25px; text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .user-icon {
+            width: 70px; height: 70px;
+            background: linear-gradient(45deg, #00e5ff, #7000ff);
+            border-radius: 50%; margin: 0 auto 15px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 30px; border: 3px solid #1a1a2e;
+        }
+        .btn-action {
+            width: 100%; background: linear-gradient(90deg, #00c6ff, #0072ff);
+            color: white; border: none; padding: 15px;
+            border-radius: 12px; font-weight: bold; margin-top: 15px;
+            cursor: pointer; transition: 0.3s;
+        }
+        .btn-action:active { transform: scale(0.95); opacity: 0.8; }
+    </style>
+</head>
+<body>
+
+    <div id="loader-screen">
+        <div class="title-load">LAVA SHÓP SYSTEM</div>
+        <div class="progress-container">
+            <div class="progress-fill" id="fill"></div>
+        </div>
+        <div class="status-text" id="status">INITIALIZING...</div>
+    </div>
+
+    <div id="panel-screen">
+        <div class="panel-card">
+            <div class="user-icon">👤</div>
+            <h2 style="margin: 5px 0; color: #fff;">WELCOME USER</h2>
+            <p style="color: #00e5ff; font-size: 14px; margin-bottom: 20px;">SYSTEM STATUS: ACTIVE</p>
+            
+            <button class="btn-action">OPTIMIZE NETWORK</button>
+            <button class="btn-action" style="background: #1a1a2e; border: 1px solid #0072ff;">DNS SETTINGS</button>
+            <p style="font-size: 11px; color: #555; margin-top: 20px;">LAVA STUDIO V2.0.1 (BETA)</p>
+        </div>
+    </div>
+
+    <script>
+        const fill = document.getElementById('fill');
+        const status = document.getElementById('status');
+        const loader = document.getElementById('loader-screen');
+        const panel = document.getElementById('panel-screen');
+
+        let progress = 0;
+        const messages = [
+            "CONNECTING TO SERVER...",
+            "ENCRYPTING PACKETS...",
+            "BYPASSING SECURITY...",
+            "LOADING ASSETS...",
+            "DONE!"
+        ];
+
+        // ฟังก์ชันโหลด (ตั้งเวลา 60ms ต่อ 1% = ใช้เวลาประมาณ 6 วินาที)
+        const loadingInterval = setInterval(() => {
+            progress++;
+            fill.style.width = progress + '%';
+
+            // เปลี่ยนข้อความตามช่วง
+            if (progress < 25) status.innerText = messages[0];
+            else if (progress < 50) status.innerText = messages[1];
+            else if (progress < 75) status.innerText = messages[2];
+            else if (progress < 95) status.innerText = messages[3];
+            else status.innerText = messages[4];
+
+            if (progress >= 100) {
+                clearInterval(loadingInterval);
+                
+                // เอฟเฟกต์ตอนโหลดเสร็จ
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                    panel.style.display = 'block';
+                    // เพิ่มเสียงแจ้งเตือนได้ตรงนี้
+                }, 500);
+            }
+        }, 60); // ปรับเลข 60 ให้มากขึ้นถ้าอยากให้ช้าลงอีกครับ
+    </script>
+</body>
+</html>
